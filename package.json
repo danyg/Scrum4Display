@@ -1,0 +1,13 @@
+{
+	"name": "ScrumDisplayBuilder",
+	"version": "0.0.1",
+	"dependencies": {
+		"nw-builder": "2.0.2"
+	},
+	"devDependencies": {
+		"nw": "0.12.3"
+	},
+	"scripts": {
+		"start": "nw app"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Scrum4Display",
+	"version": "0.0.1",
+	"main": "app://scrum4display/index.html",
+	"window": {
+		"title": "Scrum 4 Display",
+		"frame": true,
+		"toolbar": false,
+		"width": 1024,
+		"height": 620,
+		"resizable": false,
+		"fullscreen": true
+	}
+}
