@@ -13,6 +13,22 @@ html, body{
 iframe {
 	border: 0;
 	position: absolute;
+	background: #fff;
+	opacity: 0;
+	transition: opacity 300ms;
+}
+
+body.dim-low{
+	opacity: .9;
+}
+body.dim-medium{
+	opacity: .7;
+}
+body.dim-high{
+	opacity: .5;
+}
+body.dim-insane{
+	opacity: .3;
 }
 
 .top-left{
@@ -46,32 +62,37 @@ iframe {
 ::-webkit-scrollbar {
   width: 2px;
   height: 2px;
+  opacity: 0;
+  transition: opacity 500ms;
+}
+::-webkit-scrollbar:hover {
+  opacity: 1;
 }
 ::-webkit-scrollbar-button {
   width: 0px;
   height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e1e1e1;
-  border: 0px none #ffffff;
+  background: #222222;
+  border: 0px none #666666;
   border-radius: 50px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  background: #666666;
 }
 ::-webkit-scrollbar-thumb:active {
   background: #000000;
 }
 ::-webkit-scrollbar-track {
-  background: #666666;
-  border: 0px none #ffffff;
+  background: #e2e2e2;
+  border: 0px none #222222;
   border-radius: 50px;
 }
 ::-webkit-scrollbar-track:hover {
-  background: #666666;
+  background: #e2e2e2;
 }
 ::-webkit-scrollbar-track:active {
-  background: #333333;
+  background: #ffffff;
 }
 ::-webkit-scrollbar-corner {
   background: transparent;

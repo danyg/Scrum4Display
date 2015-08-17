@@ -8,6 +8,18 @@
 		"nw": "0.12.3"
 	},
 	"scripts": {
-		"start": "nw app"
+		"install": "cd app & npm install & bower install & cd ..",
+		"start": "nw app",
+		"build": "node scripts/build.js"
+	},
+	"repository" :{
+		"type" : "git",
+		"url" : "https://github.com/danyg/Scrum4Display.git"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Daniel Goberitz",
+		"email": "dalgo86@gmail.com",
+		"url": "https://es.linkedin.com/pub/daniel-goberitz/26/ab0/a16/en"
 	}
 }

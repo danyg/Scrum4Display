@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen" rel="stylesheet" />
 		<link href="css/styles.css" type="text/css" media="screen" rel="stylesheet" />
 		<script type="text/javascript">
 
@@ -9,10 +10,28 @@
 
 		</script>
 
-		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
+
+		<script type="text/javascript" src="bower_components/requirejs/require.js" data-main="js/main"></script>
 	</head>
 	<body>
 
+
+
+		<div class="modal start-hide fade" id="alert">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Alert!</h4>
+					</div>
+					<div class="modal-body">
+						<p></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</body>
 </html>
