@@ -1,6 +1,6 @@
 {
 	"name": "ScrumDisplayBuilder",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"dependencies": {
 		"nw-builder": "2.0.2"
 	},
@@ -10,11 +10,14 @@
 	"scripts": {
 		"install": "cd app & npm install & bower install & cd ..",
 		"start": "nw app",
-		"build": "node scripts/build.js"
+		"build": "node scripts/build.js",
+		"nextMajor": "node scripts/next.js --major",
+		"nextMinor": "node scripts/next.js --minor",
+		"next": "node scripts/next.js"
 	},
-	"repository" :{
-		"type" : "git",
-		"url" : "https://github.com/danyg/Scrum4Display.git"
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/danyg/Scrum4Display.git"
 	},
 	"license": "MIT",
 	"author": {

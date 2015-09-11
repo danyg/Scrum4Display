@@ -6,9 +6,14 @@ An app for Scrum Display, to see all what a scrum team needs
 
 ## Create a self contained package
 - ```npm install```
-- ```npm run-script build```
+- ```npm run build```
 For development propuses
 - ```npm start```
+## Prepare next iteration
+- ```npm run next``` increments the build number
+- ```npm run nextMajor``` increments the major number
+- ```npm run nextMinor``` increments the minor number
+```npm run next``` is always executed after ```npm run build```
 
 ## How to use it
 With the package created, you need to create config.json file in the package directory.

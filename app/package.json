@@ -1,6 +1,6 @@
 {
 	"name": "Scrum4Display",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"main": "app://scrum4display/index.html",
 	"window": {
 		"title": "Scrum 4 Display",
@@ -11,9 +11,9 @@
 		"resizable": false,
 		"fullscreen": true
 	},
-	"repository" :{
-		"type" : "git",
-		"url" : "https://github.com/danyg/Scrum4Display.git"
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/danyg/Scrum4Display.git"
 	},
 	"license": "MIT",
 	"author": {

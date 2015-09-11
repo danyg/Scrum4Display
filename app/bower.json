@@ -1,21 +1,21 @@
 {
-  "name": "ScrumDisplayBuilder",
-  "version": "0.0.1",
-  "dependencies": {
-    "requirejs": "~2.1.20",
-    "jquery": "~2.1.4",
-    "bootstrap": "~3.3.5",
-    "mousetrap": "~1.5.3",
-    "requirejs-text": "~2.0.14"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/danyg/Scrum4Display.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Daniel Goberitz",
-    "email": "dalgo86@gmail.com",
-    "url": "https://es.linkedin.com/pub/daniel-goberitz/26/ab0/a16/en"
-  }
+	"name": "ScrumDisplay",
+	"version": "0.0.3",
+	"dependencies": {
+		"requirejs": "~2.1.20",
+		"jquery": "~2.1.4",
+		"bootstrap": "~3.3.5",
+		"mousetrap": "~1.5.3",
+		"requirejs-text": "~2.0.14"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/danyg/Scrum4Display.git"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Daniel Goberitz",
+		"email": "dalgo86@gmail.com",
+		"url": "https://es.linkedin.com/pub/daniel-goberitz/26/ab0/a16/en"
+	}
 }

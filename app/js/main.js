@@ -1,4 +1,4 @@
-!(function(){
+(function(){
 	'use strict';
 
 	var fs = require('fs'),
@@ -11,9 +11,6 @@
 		'../release-definitions/environment' :
 		'../environment'
 	;
-
-
-
 
 	requirejs.config({
 		baseUrl: 'app://scrum4display/js/',
