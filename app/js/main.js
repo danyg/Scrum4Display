@@ -51,13 +51,12 @@ define([
 
 	var fs = require('fs'),
 		path = require('path'),
-		gui = require('nw.gui')
+		gui = require('nw.gui'),
+		cwd = env.getcwd(),
+		configFilePath = path.normalize(cwd + '/config.json')
 	;
 
 	function loadConfiguration(){
-		var cwd = env.getcwd(),
-			configFilePath = path.normalize(cwd + '/config.json')
-		;
 
 		if(fs.existsSync(configFilePath)){
 			var config = JSON.parse(fs.readFileSync(configFilePath));
@@ -86,6 +85,13 @@ define([
 	$(document).ready(function() {
 		$('.start-hide').modal('hide');
 		loadConfiguration();
+
+		fs.watchFile(
+			configFilePath,
+			function() {
+				loadConfiguration();
+			}
+		);
 	});
 
 });

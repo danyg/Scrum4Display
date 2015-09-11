@@ -8,15 +8,28 @@ define([
 
 	var openedWebs = [];
 
-	function webs(config) {
-		for(var i=0; i < config.length; i++){
+	function getConfig(config, generalConfig) {
+		if(typeof config === 'string') {
+			if(generalConfig.hasOwnProperty(config)) {
+				return generalConfig[config];
+			} else {
+				alert('The Key ' + config + 'wasn\'t found in the config file');
+			}
+		} else {
+			return config;
+		}
+	}
+
+	function webs(config, generalConfig) {
+		var realConfig = getConfig(config, generalConfig);
+		for(var i=0; i < realConfig.length; i++){
 			openedWebs.push(
-				new Web(config[i])
+				new Web(realConfig[i])
 			);
 		}
 	}
 
-	webs.onRefreshConfig = function(config){
+	webs.onRefreshConfig = function(config, generalConfig){
 		//TODO check if only changes url!
 		openedWebs.forEach(function(web){
 			web.remove();
@@ -24,7 +37,7 @@ define([
 
 		openedWebs = [];
 
-		webs(config);
+		webs(config, generalConfig);
 	};
 
 	return webs;

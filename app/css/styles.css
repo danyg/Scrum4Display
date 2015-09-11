@@ -42,21 +42,21 @@ body.dim-insane{
 	width: 50%;
 	height: 50%;
 	top: 0px;
-	left: 50%;
+	right: 0px;
 }
 
 .bottom-left{
 	width: 50%;
 	height: 50%;
-	top: 50%;
+	bottom: 0px;
 	left: 0px;
 }
 
 .bottom-right{
 	width: 50%;
 	height: 50%;
-	top: 50%;
-	left: 50%;
+	bottom: 0px;
+	right: 0px;
 }
 
 ::-webkit-scrollbar {

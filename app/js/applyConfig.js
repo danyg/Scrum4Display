@@ -42,9 +42,9 @@
 					try{
 
 						if(configApplied === 0 || typeof configStrategy[key].onRefreshConfig !== 'function'){
-							configStrategy[key](config[key]);
+							configStrategy[key](config[key], config);
 						} else {
-							configStrategy[key].onRefreshConfig(config[key]);
+							configStrategy[key].onRefreshConfig(config[key], config);
 						}
 
 					} catch(e){

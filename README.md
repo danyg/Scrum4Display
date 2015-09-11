@@ -22,7 +22,8 @@ Then execute Scrum4Display.exe
 #config.json
 ```json
 {
-	"webs": [
+	"webs": "mondays_layout",
+	"mondays_layout": [
 		{
 			"url": "file://~/test.html",
 			"scripts": "$('body').html('INJECTED');",
@@ -49,16 +50,20 @@ Then execute Scrum4Display.exe
 	],
 	"dim": "low"
 ```
-- **webs**
+- **webs** ```String``` or ```Array``` if string is used, refers to a key in the config file which is an array with web objects
 -- **url**: The full url to the web page, the symbol ~ is recogniced as the path to the application directory.
 -- **refresh**: Time in minutes for refresh intervals
--- **scripts**: Javascript code to be injected in this page
+-- **scripts**: Javascript code to be injected in this page (jQuery is present in non-conflict mode use $, jQuery might reference to the jQuery version loaded in the page)
 -- **styles**: CSS code to be injected in this page
 -- **type**: Layout disposition acepted values top-left, top-right, bottom-left, bottom-right
 -- **top**: CSS top for layout (% is recomended)
 -- **left**: CSS left for layout (% is recomended)
+-- **bottom**: CSS bottom for layout (% is recomended)
+-- **right**: CSS right for layout (% is recomended)
 -- **width**: CSS width for layout (% is recomended)
 -- **height**: CSS height for layout (% is recomended)
+-- **zIndex**: CSS z-index for layout
+-- **opacity**: CSS opacity for layout
 - **dim**
 -- low
 -- medium
@@ -69,3 +74,7 @@ Then execute Scrum4Display.exe
 
 - ```F5``` Refresh config file
 - ```shift```+```F5``` Reload the entirely application (for devel)
+
+### Capabilities
+
+- Updates the layout when the config.json file is updated (could take 5 seconds)

@@ -28,13 +28,14 @@ define([
 	}
 
 	function Web(config){
-		this.$iframe = $('<iframe nwfaketop class="top-left" src="app://scrum4display/notfound.html"/>').appendTo('body');
+		this.$iframe = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>').appendTo('body');
 		this.iframe = this.$iframe.get(0);
 		this.config = config;
+		this._opacity = 1;
 
 		this.listenForLoad();
 
-this.$iframe.data('web', this);
+		this.$iframe.data('web', this);
 
 		this.goHome();
 		this._setConfig();
@@ -85,11 +86,24 @@ this.$iframe.data('web', this);
 		if(!!this.config.left) {
 			this.$iframe.css('left', this.config.left);
 		}
+		if(!!this.config.bottom) {
+			this.$iframe.css('bottom', this.config.bottom);
+		}
+		if(!!this.config.right) {
+			this.$iframe.css('right', this.config.right);
+		}
 		if(!!this.config.width) {
 			this.$iframe.css('width', this.config.width);
 		}
 		if(!!this.config.height) {
 			this.$iframe.css('height', this.config.height);
+		}
+		if(!!this.config.zIndex) {
+			this.$iframe.css('zIndex', this.config.zIndex);
+		}
+		if(!!this.config.opacity) {
+			this.$iframe.css('opacity', this.config.opacity);
+			this._opacity = this.config.opacity;
 		}
 	};
 
@@ -119,7 +133,7 @@ this.$iframe.data('web', this);
 		console.log(this.iframe.contentDocument.location.toString(), 'Loaded');
 		this._injectStyles();
 		this._injectScripts();
-		this.$iframe.css('opacity', 1);
+		this.$iframe.css('opacity', this._opacity);
 	};
 
 	Web.prototype._injectStyles = function(){
