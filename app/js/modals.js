@@ -22,4 +22,8 @@ define([
 		return dfd;
 	};
 
+	window.hideModal = function() {
+		$('#alert').modal('hide');
+	};
+
 });

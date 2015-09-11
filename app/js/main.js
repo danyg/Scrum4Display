@@ -58,9 +58,14 @@ define([
 
 	function loadConfiguration(){
 
-		if(fs.existsSync(configFilePath)){
-			var config = JSON.parse(fs.readFileSync(configFilePath));
-			applyConfig(config);
+		if(fs.existsSync(configFilePath)) {
+			try {
+				hideModal();
+				var config = JSON.parse(fs.readFileSync(configFilePath));
+				applyConfig(config);
+			} catch (e) {
+				alert('Oops... something is wrong with the config.file ' + e.message);
+			}
 		} else {
 			var p = alert('Config file doesn\'t exists ' + configFilePath);
 			if(!!p){

@@ -3,7 +3,7 @@
 	padding: 0;
 }
 
-html, body{
+html, body, #container{
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
@@ -18,16 +18,16 @@ iframe {
 	transition: opacity 300ms;
 }
 
-body.dim-low{
+#container.dim-low{
 	opacity: .9;
 }
-body.dim-medium{
+#container.dim-medium{
 	opacity: .7;
 }
-body.dim-high{
+#container.dim-high{
 	opacity: .5;
 }
-body.dim-insane{
+#container.dim-insane{
 	opacity: .3;
 }
 

@@ -28,7 +28,7 @@ define([
 	}
 
 	function Web(config){
-		this.$iframe = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>').appendTo('body');
+		this.$iframe = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>').appendTo('#container');
 		this.iframe = this.$iframe.get(0);
 		this.config = config;
 		this._opacity = 1;

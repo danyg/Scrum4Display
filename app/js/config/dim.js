@@ -9,11 +9,11 @@ define([
 
 	function dim(config) {
 		currentConfig = config.toLowerCase();
-		$('body').addClass('dim-' + currentConfig);
+		$('#container').addClass('dim-' + currentConfig);
 	}
 
 	dim.onRefreshConfig = function(config){
-		$('body').removeClass('dim-' + currentConfig);
+		$('#container').removeClass('dim-' + currentConfig);
 		dim(config);
 	};
 

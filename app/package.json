@@ -1,6 +1,6 @@
 {
 	"name": "Scrum4Display",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"main": "app://scrum4display/index.html",
 	"window": {
 		"title": "Scrum 4 Display",
