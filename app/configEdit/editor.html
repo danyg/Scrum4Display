@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>ConfigEditor</title>
+
+		<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen" rel="stylesheet" />
+		<style type="text/css" media="screen">
+			html, body {
+				overflow: hidden;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			#editor {
+				margin: 0;
+				position: absolute;
+				top: 25px;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+			pre {
+				border-radius: 0;
+				margin: 0;
+				padding: 0;
+				border: none;
+			}
+
+			#alertBox {
+				position: absolute;
+				top: 2%;
+				right: 2%;
+				width: 25%;
+				min-height: 5%;
+			}
+
+			.btn {
+				padding: 0px 12px;
+			}
+			.app-bar {
+				background: #444;
+				color: #eee;
+				padding: 1px 5px;
+				height: 25px;
+			}
+
+			.app-bar .btn {
+				background: #555;
+				color: #eee;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app-bar">
+			<div class="" role="group" aria-label="...">
+				<button type="button" class="btn BTN_LOAD" data-toggle="tooltip" data-placement="right" title="Open config.json"><i class="glyphicon glyphicon-folder-open"></i></button>
+				<button type="button" class="btn BTN_SAVE" data-toggle="tooltip" data-placement="right" title="Save config.json (Ctrl+S)"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+				<button type="button" class="btn BTN_FORMAT" data-toggle="tooltip" data-placement="right" title="Format (Ctrl+Shift+F)"><i class="glyphicon glyphicon-align-left"></i></button>
+			</div>
+		</div>
+		<pre id="editor"></pre>
+		<div id="alertBox"></div>
+
+		<script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="aceEditMin/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/configEdit.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

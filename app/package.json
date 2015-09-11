@@ -20,5 +20,8 @@
 		"name": "Daniel Goberitz",
 		"email": "dalgo86@gmail.com",
 		"url": "https://es.linkedin.com/pub/daniel-goberitz/26/ab0/a16/en"
+	},
+	"scripts": {
+		"install": "bower install"
 	}
 }
