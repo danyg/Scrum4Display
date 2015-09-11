@@ -13,7 +13,8 @@
 		"build": "node scripts/build.js",
 		"nextMajor": "node scripts/next.js --major",
 		"nextMinor": "node scripts/next.js --minor",
-		"next": "node scripts/next.js"
+		"next": "node scripts/next.js",
+		"changelog": "git log --format=[%ai]%n%B | grep \"ADD:\\|MOD:\\|FIX:\\|RMV:\\|\\[\\|^$\""
 	},
 	"repository": {
 		"type": "git",
