@@ -53,8 +53,12 @@ define([
 		path = require('path'),
 		gui = require('nw.gui'),
 		cwd = env.getcwd(),
-		configFilePath = path.normalize(cwd + '/config.json')
+		configFilePath = path.normalize(cwd + '/config.json'),
+		assetsPath = path.resolve('./')
 	;
+
+	env.set('configFilePath', configFilePath);
+	env.set('assetsPath', assetsPath);
 
 	function loadConfiguration(){
 

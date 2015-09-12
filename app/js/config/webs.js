@@ -21,6 +21,10 @@ define([
 	}
 
 	function webs(config, generalConfig) {
+		if(config === null) {
+			return;
+		}
+
 		var realConfig = getConfig(config, generalConfig);
 		for(var i=0; i < realConfig.length; i++){
 			openedWebs.push(

@@ -8,6 +8,9 @@ define([
 	var currentConfig;
 
 	function dim(config) {
+		if(config === null) {
+			return;
+		}
 		currentConfig = config.toLowerCase();
 		$('#container').addClass('dim-' + currentConfig);
 	}

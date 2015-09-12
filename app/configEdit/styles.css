@@ -1,0 +1,80 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #323232;
+  border: 1px none #000000;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #505050;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #505050;
+}
+::-webkit-scrollbar-track {
+  background: #222222;
+  border: 0px none #222222;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #2a2a2a;
+}
+::-webkit-scrollbar-track:active {
+  background: #2a2a2a;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html, body {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#editor {
+	margin: 0;
+	position: absolute;
+	top: 25px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+pre {
+	border-radius: 0;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#alertBox {
+	position: absolute;
+	top: 2%;
+	right: 2%;
+	width: 25%;
+	min-height: 5%;
+	z-index: 2000;
+}
+
+.btn {
+	padding: 0px 12px;
+}
+.app-bar {
+	background: #444;
+	color: #eee;
+	padding: 1px 5px;
+	height: 25px;
+}
+
+.app-bar .btn {
+	background: #555;
+	color: #eee;
+}

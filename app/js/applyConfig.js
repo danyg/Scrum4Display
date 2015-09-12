@@ -30,31 +30,30 @@
 		}
 
 		function applyConfig(config){
+			var configStrategies = Object.keys(configStrategy);
+			configStrategies.forEach(function(strategyName) {
+				applyStrategy(strategyName, config);
+			});
 
-			var keys = Object.keys(config),
-				key,
-				i
-			;
-			for(i = 0; i < keys.length; i++){
-				key = keys[i];
-
-				if(configStrategy.hasOwnProperty(key)){
-					try{
-
-						if(configApplied === 0 || typeof configStrategy[key].onRefreshConfig !== 'function'){
-							configStrategy[key](config[key], config);
-						} else {
-							configStrategy[key].onRefreshConfig(config[key], config);
-						}
-
-					} catch(e){
-						console.error('Error applying config for ', key, config[key], e.message, e.stack);
-					}
-				} else {
-					console.warn('No Config Strategy for', key);
-				}
-			}
 			configApplied++;
+		}
+
+		function applyStrategy(strategyName, config) {
+			var strategyConfig = null;
+			if(config.hasOwnProperty(strategyName)) {
+				strategyConfig = config[strategyName];
+			}
+
+			try {
+				if(configApplied === 0 || typeof configStrategy[strategyName].onRefreshConfig !== 'function'){
+					configStrategy[strategyName](strategyConfig, config);
+				} else {
+					configStrategy[strategyName].onRefreshConfig(strategyConfig, config);
+				}
+			} catch( e ) {
+				console.error('Error applying config for ', strategyName, strategyConfig, e.message, e.stack);
+				// error on ui
+			}
 		}
 
 		return applyConfig;

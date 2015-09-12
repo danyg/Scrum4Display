@@ -12,6 +12,8 @@ define([
 	}
 
 	return {
+		_data: {},
+
 		isDebug: function(){
 			return (environment === 'DEVEL');
 		},
@@ -24,8 +26,15 @@ define([
 				cwd = path.dirname(process.execPath);
 			}
 			return cwd;
-		}
-	}
+		},
 
+		set: function(key, val) {
+			this._data[key] = val;
+			return this;
+		},
+		get: function(key) {
+			return this._data[key];
+		}
+	};
 
 });

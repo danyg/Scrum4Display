@@ -59,9 +59,9 @@
 	}
 
 	function saveDocument() {
-		info('Saving!');
 		var annotations = editor.getSession().getAnnotations();
 		if(annotations.filter(filter_errors).length === 0) {
+			info('Saving!');
 			var doc = editor.getSession().getDocument();
 			$.ajax({
 				url: '/config.json',
@@ -76,7 +76,7 @@
 				error("Error saving, try again.");
 			});
 		} else {
-			alert("Fix the errors before saving.");
+			alert("The document has an error<br/> please fix the errors before saving.");
 		}
 	}
 
@@ -91,7 +91,7 @@
 		name: 'save',
 		bindKey: {win: 'Ctrl-S',	mac: 'Command-S'},
 		exec: function(editor) {
-			saveDocument();
+			setTimeout(saveDocument, 500);
 		},
 		readOnly: true // false if this command should not apply in readOnly mode
 	});

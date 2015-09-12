@@ -1,6 +1,6 @@
 {
 	"name": "ScrumDisplayBuilder",
-	"version": "0.0.5",
+	"version": "0.0.7",
 	"dependencies": {
 		"nw-builder": "2.0.2"
 	},
