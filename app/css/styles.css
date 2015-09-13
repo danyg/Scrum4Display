@@ -10,12 +10,20 @@ html, body, #container{
 	background: #222;
 }
 
+.iframe-container {
+	position: absolute;
+}
+
 iframe {
 	border: 0;
 	position: absolute;
 	background: #fff;
 	opacity: 0;
 	transition: opacity 300ms;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
 }
 
 #container.dim-low{
@@ -96,4 +104,70 @@ iframe {
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+
+@-moz-keyframes three-quarters-loader {
+  0% {
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes three-quarters-loader {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes three-quarters-loader {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/* :not(:required) hides this rule from IE9 and below */
+.three-quarters-loader:not(:required) {
+	-moz-animation: three-quarters-loader 1250ms infinite linear;
+	-webkit-animation: three-quarters-loader 1250ms infinite linear;
+	animation: three-quarters-loader 1250ms infinite linear;
+	border: 8px solid #f2f2f2;
+	border-right-color: transparent;
+	border-radius: 16px;
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	text-indent: -9999px;
+	width: 32px;
+	height: 32px;
+}
+
+.iframe-container .spinner {
+	z-index: 20;
+	position: absolute;
+	top: 2%;
+	right: 2%;
+	width: 52px;
+	height: 42px;
+	padding: 5px 10px;
+	transition: opacity 300ms;
+
+	border-radius: 12px;
+	background: rgba(34,34,34,.6);
 }

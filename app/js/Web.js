@@ -28,15 +28,35 @@ define([
 	}
 
 	function Web(config){
-		this.$iframe = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>').appendTo('#container');
-		this.iframe = this.$iframe.get(0);
+		this.$container = $('<div class="iframe-container"></div>')
+			.appendTo('#container')
+		;
+		this.$spinner = $('<span class="spinner"><i class="three-quarters-loader"></i></span>')
+			.appendTo(this.$container)
+			.css('opacity', 1)
+		;
+		this.$iframe_1 = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>')
+			.appendTo(this.$container)
+			.addClass('_1')
+		;
+		this.$iframe_2 = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>')
+			.appendTo(this.$container)
+			.addClass('_2')
+		;
+		this.$iframes = $(this.$iframe_1).add(this.$iframe_2);
+
+		this.iframe_1 = this.$iframe_1.get(0);
+		this.iframe_2 = this.$iframe_2.get(0);
+
+		this.$iframe_1.data('web', this);
+		this.$iframe_2.data('web', this);
+
 		this.config = config;
 		this._opacity = 1;
 
+		this._refreshCycles = 0;
+
 		this.listenForLoad();
-
-		this.$iframe.data('web', this);
-
 		this.goHome();
 		this._setConfig();
 	}
@@ -54,10 +74,6 @@ define([
 	};
 
 	contextMenu.append(new gui.MenuItem({
-		label: 'Home',
-		click: Web.goHome
-	}));
-	contextMenu.append(new gui.MenuItem({
 		label: 'Reload',
 		click: Web.refresh
 	}));
@@ -72,37 +88,42 @@ define([
 			var local = 'file://' + cwd.indexOf('\\') !== -1 ? '/' + cwd.replace(/\\/g,'/') : cwd;
 			url = url.replace('~', local);
 		}
-		this.$iframe.attr('src', url);
+		this._getCurrent$Iframe().attr('src', url);
 	};
 
 	Web.prototype._setConfig = function(){
+		this.$iframe_1.css('z-index', 2);
+		this.$iframe_2.css('z-index', 1);
+
 		this._refreshInterval();
-		if(!!this.config.type){
-			this.$iframe.addClass(this.config.type);
+
+		if(!!this.config.type) {
+			this.$container.addClass(this.config.type);
 		}
+
 		if(!!this.config.top) {
-			this.$iframe.css('top', this.config.top);
+			this.$container.css('top', this.config.top);
 		}
 		if(!!this.config.left) {
-			this.$iframe.css('left', this.config.left);
+			this.$container.css('left', this.config.left);
 		}
 		if(!!this.config.bottom) {
-			this.$iframe.css('bottom', this.config.bottom);
+			this.$container.css('bottom', this.config.bottom);
 		}
 		if(!!this.config.right) {
-			this.$iframe.css('right', this.config.right);
+			this.$container.css('right', this.config.right);
 		}
 		if(!!this.config.width) {
-			this.$iframe.css('width', this.config.width);
+			this.$container.css('width', this.config.width);
 		}
 		if(!!this.config.height) {
-			this.$iframe.css('height', this.config.height);
+			this.$container.css('height', this.config.height);
 		}
 		if(!!this.config.zIndex) {
-			this.$iframe.css('zIndex', this.config.zIndex);
+			this.$iframes.css('zIndex', this.config.zIndex);
 		}
 		if(!!this.config.opacity) {
-			this.$iframe.css('opacity', this.config.opacity);
+			this.$container.css('opacity', this.config.opacity);
 			this._opacity = this.config.opacity;
 		}
 	};
@@ -112,43 +133,52 @@ define([
 	};
 
 	Web.prototype.listenForLoad = function(){
-		$(this.$iframe)
+		$(this.$iframes)
 			.on('load.web', this._onload.bind(this))
 		;
 	};
 
 	Web.prototype.listenForContextMenu = function(){
 		var me = this;
-		$(this.iframe.contentWindow).on('contextmenu.web', function(e){
+		$(this._getPreviousIframe().contentWindow).off('contextmenu.web');
+		$(this._getCurrentIframe().contentWindow).off('contextmenu.web');
+		$(this._getCurrentIframe().contentWindow).on('contextmenu.web', function(e){
 			onContextMenu(e, me);
 		});
-	}
+	};
 
 	Web.prototype._onload = function(){
-
-		this._mouseTrapInstance = new IframeMousetrap(this.iframe.contentDocument);
-
+		this._mouseTrapInstance = new IframeMousetrap(this._getCurrentIframe().contentDocument);
 
 		this._setEvents();
-		console.log(this.iframe.contentDocument.location.toString(), 'Loaded');
+		console.log(this._getCurrentIframe().contentDocument.location.toString(), 'Loaded');
 		this._injectStyles();
 		this._injectScripts();
-		this.$iframe.css('opacity', this._opacity);
+		this._getCurrent$Iframe()
+			.css('zIndex', 2)
+		;
+		this._getPrevious$Iframe()
+			.css('zIndex', 1)
+		;
+		this._getCurrent$Iframe()
+			.css('opacity', 1)
+		;
+		this.$spinner.css('opacity', 0);
 	};
 
 	Web.prototype._injectStyles = function(){
 		if(!!this.config.styles){
 			var $styles = $('<style type="text/css">' + this.config.styles + '</style>');
-			$('head', this.iframe.contentDocument).append($styles);
+			$('head', this._getCurrentIframe().contentDocument).append($styles);
 		}
 	};
 
 	Web.prototype._injectScripts = function(){
 		if(!!this.config.scripts){
-			var $iframe = this.$iframe,
+			var $iframe = this._getCurrent$Iframe(),
 				scripts = this.config.scripts,
-				doc = this.iframe.contentDocument,
-				win = this.iframe.contentWindow
+				doc = this._getCurrentIframe().contentDocument,
+				win = this._getCurrentIframe().contentWindow
 			;
 
 			console.log('Injecting jQuery in', win.location.toString());
@@ -176,27 +206,45 @@ define([
 	};
 
 	Web.prototype.refresh = function(){
+		this.$spinner.css('opacity', 1);
+		this._refreshCycles++;
 		this._clean();
 
-		this.iframe.contentWindow.location.reload();
+		this._getCurrent$Iframe().attr('src', this.config.url);
 	};
 
 	Web.prototype.getPosition = function(){
-		return this.$iframe.position();
+		return this.$container.position();
 	};
 
 	Web.prototype.remove = function() {
 		clearInterval(this._refreshTimer);
-		this.$iframe.off('.web');
-		this.$iframe.remove();
+		this.$iframes.off('.web');
+		this.$container.remove();
 	};
 
 	Web.prototype._clean = function(){
-		this.$iframe.css('opacity', 0);
+		this._getCurrent$Iframe().css('opacity', 0);
 
 		if(!!this._mouseTrapInstance){
 			this._mouseTrapInstance.shutdown();
 		}
+	};
+
+	Web.prototype._getCurrent$Iframe = function(){
+		return this._refreshCycles%2 === 0 ? this.$iframe_1 : this.$iframe_2;
+	};
+
+	Web.prototype._getPrevious$Iframe = function(){
+		return this._refreshCycles%2 === 1 ? this.$iframe_1 : this.$iframe_2;
+	};
+
+	Web.prototype._getCurrentIframe = function(){
+		return this._refreshCycles%2 === 0 ? this.iframe_1 : this.iframe_2;
+	};
+
+	Web.prototype._getPreviousIframe = function(){
+		return this._refreshCycles%2 === 1 ? this.iframe_1 : this.iframe_2;
 	};
 
 	return Web;
