@@ -1,0 +1,27 @@
+0.0.7
+MOD: Imporoved Refresh process using 2 iframes to avoid blanks between refresh
+
+0.0.6
+ADD: Config Editor
+ADD: Server and app for ConfigEdit (ALPHA)
+
+0.0.4
+ADD: Changelog
+ADD: npm run changelog (generates a changelog output from git commits)
+FIX: README.md
+ADD: Alert when there is a problem applying the config (removed when the config is fixed)
+MOD: dim nows only applies to the layout not to the modal
+ADD: fs.watchFile over config.json (the layout is refreshed after changes config.json)
+ADD: more css config options to the web objects (bottom, right, zIndex, opacity)
+FIX: top-right and bottom-right web types to be aligned to the right and bottom as expected.
+ADD: script next for package version control
+MOD: Config mechanism now allows first level plugins
+ADD: Context menu
+ADD: Hotkeys
+ADD: script for build (npm run build)
+MOD: bootstrap modals
+ADD: build as a npm script
+ADD: fancy effect on refresh
+ADD: hot keys, F5 and shift+F5 (see README.md)
+ADD: config refresh
+ADD: a complitly new way of define configurations
