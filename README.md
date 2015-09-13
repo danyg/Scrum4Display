@@ -34,7 +34,11 @@ Then execute Scrum4Display.exe
 			"height": "10%"
 		}
 	],
-	"dim": "low"
+	"dim": "low",
+	"serverEditor": {
+		"port": 5580,
+		"disabled": true
+	},
 ```
 
 - **webs** ```String``` or ```Array``` if string is used, refers to a key in the config file which is an array with web objects
@@ -56,15 +60,20 @@ Then execute Scrum4Display.exe
   - medium
   - high
   - insane
+- **serverEditor**
+  - **port**: an port number if not specified 9001 is used
+  - **disabled**: true|false if not specified false is used
 
 ## Hotkeys
 
 - ```F5``` Refresh config file
 - ```shift```+```F5``` Reload the entirely application (for devel)
+- ```F12``` Open a Config Editor Window
 
 # Capabilities
 
 - Updates the layout when the config.json file is updated (could take 5 seconds)
+- Config Edit (http://<host>:9001/) allows to edit the config file remotely via web browser
 
 # Development
 
