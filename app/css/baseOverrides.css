@@ -1,0 +1,44 @@
+/*
+* @Author: Daniel Goberitz
+* @Date:   2016-11-23 07:56:10
+* @Last Modified by:   danyg
+* @Last Modified time: 2016-11-23 07:56:12
+*/
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 500ms;
+}
+::-webkit-scrollbar:hover {
+  opacity: 1;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border: 0px none #666666;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #666666;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+::-webkit-scrollbar-track {
+  background: #e2e2e2;
+  border: 0px none #222222;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #e2e2e2;
+}
+::-webkit-scrollbar-track:active {
+  background: #ffffff;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
