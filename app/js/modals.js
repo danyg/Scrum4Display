@@ -1,5 +1,6 @@
 define([
-	'jquery'
+	'jquery',
+	'bootstrap'
 ], function(
 	$
 ){
@@ -14,9 +15,16 @@ define([
 		});
 	});
 
-	window.alert = function() {
+	window.alert = function(text, title) {
 		dfd = $.Deferred();
-		$('#alert .modal-body p').text(arguments[0]);
+
+		if(!!title) {
+			$('#alert .modal-title').text(title);
+		} else {
+			$('#alert .modal-title').text('Alert!');
+		}
+
+		$('#alert .modal-body p').html(text.replace(/\n/g, '<br/>'));
 		$('#alert').modal('show');
 
 		return dfd;

@@ -1,6 +1,6 @@
 {
-	"name": "ScrumDisplay",
-	"version": "0.0.8",
+	"name": "Scrum4Display",
+	"version": "0.1.0",
 	"dependencies": {
 		"requirejs": "~2.1.20",
 		"jquery": "~2.1.4",

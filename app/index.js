@@ -3,7 +3,7 @@
 *
 * @Author: Daniel Goberitz
 * @Date:               2016-11-05 10:43:46
-* @Last Modified time: 2016-11-23 06:56:11
+* @Last Modified time: 2016-11-25 20:16:09
 */
 
 'use strict';
@@ -28,13 +28,20 @@ function createMainWindow() {
 		title: 'Scrum Display',
 		frame: true,
 		toolbar: false,
-		// resizable: false,
-		// fullscreen: true
+		// fullscreen: true,
+		hasShadow: false,
+		enableLargerThanScreen: false,
+		fullscreenable: true,
+		thickFrame: true,
+		show:false
 	});
 	win.setMenu(null);
 
 	win.loadURL(`file://${__dirname}/index.html`);
 	win.on('closed', onClosed);
+	win.on('ready-to-show', () => {
+		win.show();
+	});
 
 	return win;
 }

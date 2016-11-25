@@ -4,20 +4,21 @@
 	var fs = require('fs'),
 		path = require('path'),
 		environment,
-		b = '../bower_components'
+		b = '../bower_components',
+		remote = require('electron').remote,
+		BASE = path.resolve(remote.app.getAppPath() + '/js').replace(/\\/g, '/')
 	;
 
-	environment = fs.existsSync(path.resolve('./release-definitions/environment')) ?
-		'../release-definitions/environment' :
-		'../environment'
-	;
+	environment = '../environment';
 
 	requirejs.config({
-		baseUrl: 'app://scrum4display/js/',
+		// baseUrl: 'app://scrum4display/js/',
+		baseUrl: BASE,
 		paths: {
 			jquery: b + '/jquery/dist/jquery.min',
 			'jquery.js': b + '/jquery/dist/jquery.min.js',
-			bootstrap: b + '/bootstrap/dist/js/bootstrap.min',
+			// bootstrap: b + '/bootstrap/dist/js/bootstrap.min',
+			bootstrap: b + '/bootstrap/dist/js/bootstrap',
 			mousetrap: b + '/mousetrap/mousetrap',
 			text: b + '/requirejs-text/text',
 			'environment': environment
@@ -31,76 +32,17 @@
 }());
 
 define([
-	'env',
-	'jquery',
-	'bootstrap',
-
-	'applyConfig',
-	'mousetrap',
-	'modals'
+	'jquery'
 ], function(
-	env,
-	$,
-	bootstrap,
-
-	applyConfig,
-	Mousetrap
+	$
 ){
 
 	'use strict';
 
-	var fs = require('fs'),
-		path = require('path'),
-		gui = require('nw.gui'),
-		cwd = env.getcwd(),
-		configFilePath = path.normalize(cwd + '/config.json'),
-		assetsPath = path.resolve('./')
-	;
+	window.jQuery = window.$ = window._$ = $;
 
-	env.set('configFilePath', configFilePath);
-	env.set('assetsPath', assetsPath);
+	requirejs(['ui', 'bootstrap',], function(ui, bootstrap){
 
-	function loadConfiguration(){
-
-		if(fs.existsSync(configFilePath)) {
-			try {
-				hideModal();
-				var config = JSON.parse(fs.readFileSync(configFilePath));
-				applyConfig(config);
-			} catch (e) {
-				alert('Oops... something is wrong with the config.file ' + e.message);
-			}
-		} else {
-			var p = alert('Config file doesn\'t exists ' + configFilePath);
-			if(!!p){
-				p.done(function() {
-					process.exit();
-				});
-			} else {
-				process.exit();
-			}
-		}
-
-	}
-
-	Mousetrap.bind('f5', function() {
-		loadConfiguration();
-	});
-
-	Mousetrap.bind('shift+f5', function() {
-		gui.Window.get().reloadDev();
-	});
-
-	$(document).ready(function() {
-		$('.start-hide').modal('hide');
-		loadConfiguration();
-
-		fs.watchFile(
-			configFilePath,
-			function() {
-				loadConfiguration();
-			}
-		);
 	});
 
 });

@@ -5,10 +5,12 @@
 		fs = require('fs'),
 		configModulesFiles,
 		configModulesIds,
-		configModulesRequireList
+		configModulesRequireList,
+		remote = require('electron').remote,
+		BASE = path.resolve(remote.app.getAppPath() + '/js').replace(/\\/g, '/')
 	;
 
-	configModulesFiles = fs.readdirSync(path.resolve('./js/config/'));
+	configModulesFiles = fs.readdirSync(path.resolve(BASE + '/config/'));
 	configModulesIds = configModulesFiles.map(function(file){
 		return path.basename(file, '.js');
 	});

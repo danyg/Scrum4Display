@@ -6,9 +6,13 @@ define([
 
 	var path = require('path');
 
+	environment = environment.trim();
+
 	if(environment === 'DEVEL'){
-		var gui = require('nw.gui');
-		gui.Window.get().showDevTools();
+		var ipcRenderer = require('electron').ipcRenderer;
+		console.log('DEVEL MODE ON!');
+		ipcRenderer.send('devMode', true);
+		require('electron').remote.getCurrentWindow().webContents.openDevTools()
 	}
 
 	return {

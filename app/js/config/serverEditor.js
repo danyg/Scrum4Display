@@ -8,13 +8,13 @@ define([
 
 	'use strict';
 
+
 	var currentConfig,
 		child_process = require('child_process'),
 		path = require('path'),
 		assetsPath,
 		configFilePath,
 		serverProcess,
-		Win = require('nw.gui').Window,
 		PORT,
 		editorWindow
 	;
@@ -42,7 +42,9 @@ define([
 	serverEditor.openEditor = function() {
 		if(!editorWindow) {
 			if(!!serverProcess) {
-				editorWindow = Win.open('http://localhost:' + PORT + '/configEdit/editor.html', {
+
+				const {BrowserWindow} = require('electron').remote
+				editorWindow = new BrowserWindow({
 					title: 'Config Editor',
 					toolbar: false,
 					position: 'mouse',
@@ -52,8 +54,15 @@ define([
 					'plugin': false,
 					'java': false,
 
-					focus: true
+					focus: true,
+					webPreferences: {
+						nodeIntegration: false
+					}
 				});
+				editorWindow.setMenu(null);
+				console.log('OPENING: http://localhost:5580/configEdit/editor.html')
+				editorWindow.loadURL('http://localhost:' + PORT + '/configEdit/editor.html');
+
 				editorWindow.on('closed', function() {
 					editorWindow = null;
 				});

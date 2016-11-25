@@ -13,21 +13,28 @@ define([
 
 	var cwd = env.getcwd();
 
-	var gui = require('nw.gui'),
-		contextMenu = new gui.Menu(),
-		focusedWeb
+	const remote = require('electron').remote;
+	const {MenuItem, Menu} = remote;
+
+	var contextMenu = new Menu,
+		focusedWeb,
+		guestID=0;
 	;
 
 	function onContextMenu(event, web){
 		focusedWeb = web;
-		var pos = web.getPosition();
-		pos.left += event.pageX;
-		pos.top += event.pageY;
+		var pos = {
+			left: parseInt(event.pageX, 10),
+			top: parseInt(event.pageY, 10),
+		};
 
 		contextMenu.popup(pos.left, pos.top);
 	}
 
 	function Web(config){
+		guestID++;
+		this._guestID = guestID;
+
 		this.$container = $('<div class="iframe-container"></div>')
 			.appendTo('#container')
 		;
@@ -35,21 +42,22 @@ define([
 			.appendTo(this.$container)
 			.css('opacity', 1)
 		;
-		this.$iframe_1 = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>')
+		this.$iframe_1 = $('<webview src="notfound.html"/>')
 			.appendTo(this.$container)
 			.addClass('_1')
+			.data('webcontents', remote.getGuestWebContents(this._guestID + '_1'))
+			.data('web', this)
 		;
-		this.$iframe_2 = $('<iframe nwfaketop src="app://scrum4display/notfound.html"/>')
+		this.$iframe_2 = $('<webview src="notfound.html"/>')
 			.appendTo(this.$container)
 			.addClass('_2')
+			.data('webcontents', remote.getGuestWebContents(this._guestID + '_2'))
+			.data('web', this)
 		;
 		this.$iframes = $(this.$iframe_1).add(this.$iframe_2);
 
 		this.iframe_1 = this.$iframe_1.get(0);
 		this.iframe_2 = this.$iframe_2.get(0);
-
-		this.$iframe_1.data('web', this);
-		this.$iframe_2.data('web', this);
 
 		this.config = config;
 		this._opacity = 1;
@@ -73,10 +81,24 @@ define([
 		}
 	};
 
-	contextMenu.append(new gui.MenuItem({
-		label: 'Reload',
-		click: Web.refresh
-	}));
+	Web.openDevTools = function(){
+		if(!!focusedWeb){
+			focusedWeb.openDevTools();
+		}
+	};
+
+	contextMenu
+		.append(new MenuItem({
+			label: 'Reload',
+			click: Web.refresh
+		}))
+	;
+	contextMenu
+		.append(new MenuItem({
+			label: 'open DevTools',
+			click: Web.openDevTools
+		}))
+	;
 
 	Web.prototype.goHome = function(){
 		this.setUrl(this.config.url);
@@ -133,25 +155,38 @@ define([
 	};
 
 	Web.prototype.listenForLoad = function(){
+		var me = this;
 		$(this.$iframes)
-			.on('load.web', this._onload.bind(this))
+			// .on('load.web', this._onload.bind(this))
+			// .on('did-stop-loading.web', this._onload.bind(this))
+			.on('dom-ready.web', function() {
+				me._onload(this); // this is the iframe!!!
+			})
 		;
 	};
 
 	Web.prototype.listenForContextMenu = function(){
 		var me = this;
-		$(this._getPreviousIframe().contentWindow).off('contextmenu.web');
-		$(this._getCurrentIframe().contentWindow).off('contextmenu.web');
-		$(this._getCurrentIframe().contentWindow).on('contextmenu.web', function(e){
+
+		$(this._getPreviousIframe()).off('contextmenu.web');
+		$(this._getCurrentIframe()).off('contextmenu.web');
+		$(this._getCurrentIframe()).on('contextmenu.web', function(e){
 			onContextMenu(e, me);
 		});
 	};
 
-	Web.prototype._onload = function(){
-		this._mouseTrapInstance = new IframeMousetrap(this._getCurrentIframe().contentDocument);
+	Web.prototype._onload = function(iframe) {
+		if(this._getCurrentIframe() !== iframe) {
+			// we just care of initialize the showing iframe
+			return;
+		}
+
+		console.log('currentIframeWebContents', this._getCurrentIframeWebContents())
+		// this._mouseTrapInstance = new IframeMousetrap(this._getCurrentIframe().contentDocument);
+		// this._mouseTrapInstance = new IframeMousetrap(this._getCurrentIframe());
 
 		this._setEvents();
-		console.log(this._getCurrentIframe().contentDocument.location.toString(), 'Loaded');
+		// console.log(this._getCurrentIframe().contentDocument.location.toString(), 'Loaded');
 		this._injectStyles();
 		this._injectScripts();
 		this._getCurrent$Iframe()
@@ -166,35 +201,78 @@ define([
 		this.$spinner.css('opacity', 0);
 	};
 
-	Web.prototype._injectStyles = function(){
-		if(!!this.config.styles){
-			var $styles = $('<style type="text/css">' + this.config.styles + '</style>');
-			$('head', this._getCurrentIframe().contentDocument).append($styles);
+	Web.prototype._injectStyles = function() {
+		var webContents = this._getCurrentIframeWebContents();
+		var BASE = __dirname.replace(/\\/g, '/');
+
+		webContents.executeJavaScript(
+			getStyleInjectScript(`file://${BASE}/css/baseOverrides.css`, true)
+		);
+
+		if(!!this.config.hasOwnProperty('stylesheets') && this.config.stylesheets.hasOwnProperty('length')) {
+			this.config.stylesheets.forEach((stylesheet) => {
+				webContents.executeJavaScript(
+					getStyleInjectScript(stylesheet)
+				);
+			});
+		}
+
+		if(!!this.config.hasOwnProperty('style')){
+			webContents.executeJavaScript(`(() => {
+				var s = document.createElement('style'); s.type = 'text/css';
+				s.innerHTML = \`${this.config.style}\`;
+				document.head.appendChild( s );
+			})();`);
 		}
 	};
 
-	Web.prototype._injectScripts = function(){
-		if(!!this.config.scripts){
+	Web.prototype._injectScripts = function() {
+		if(!!this.config.scripts || !!this.config.script){
 			var $iframe = this._getCurrent$Iframe(),
+
 				scripts = this.config.scripts,
-				doc = this._getCurrentIframe().contentDocument,
-				win = this._getCurrentIframe().contentWindow
+				userScript = this.config.script,
+
+				injectedScript = '',
+
+				webContents = this._getCurrentIframeWebContents()
 			;
 
-			console.log('Injecting jQuery in', win.location.toString());
-			var script = '';
-			script += '!(function(){';
-			script += '\n' + jquerySrc;
-			script += '\njQuery.noConflict();';
-			script += '\nvar $ = jQuery;';
-			script += '\ntry{\n' + scripts + '\n}catch(_E){ console.error(_E); }';
-			script += 'console.log("script injected in", location.toString());';
-			script += '\n}());';
+			if(!!scripts && scripts.hasOwnProperty('length')) {
+				injectedScript = `
+					function includeScript(src) {
+						var s = document.createElement('script');
+						s.type = 'text/javascript';
+						s.src = src;
+						document.head.appendChild(s);
+					};
+				`
+				scripts.forEach((src) => {
+					injectedScript += `includeScript('${src}');\n`
+				});
+			}
 
-			var s = doc.createElement('script');
-			s.type = 'text/javascript';
-			s.innerHTML = script;
-			doc.head.appendChild(s);
+			if(!!userScript) {
+				injectedScript += '\n/*------- [ USER SCRIPT ] ------- */\n\n' + userScript;
+			}
+
+			var script = `(() => {
+				/* <----- [ jQuery ] -----> */
+				${jquerySrc}
+				/* </----- [ jQuery ] -----> */
+				jQuery.noConflict();
+				var $ = jQuery;
+				window._$ = jQuery;
+				try {
+					${injectedScript}
+				} catch(_E) {
+					console.error('ERROR INJECTING SCRIPT:', _E);
+				}
+			})();`
+
+			console.log('INJECTING SCRIPT', injectedScript);
+
+			webContents.executeJavaScript(script)
 		}
 	};
 
@@ -211,6 +289,10 @@ define([
 		this._clean();
 
 		this._getCurrent$Iframe().attr('src', this.config.url);
+	};
+
+	Web.prototype.openDevTools = function(){
+		this._getCurrentIframeWebContents().toggleDevTools();
 	};
 
 	Web.prototype.getPosition = function(){
@@ -235,6 +317,12 @@ define([
 		return this._refreshCycles%2 === 0 ? this.$iframe_1 : this.$iframe_2;
 	};
 
+	Web.prototype._getCurrentIframeWebContents = function(){
+		var $iframe = this._getCurrent$Iframe();
+		var gid = $iframe.attr('guestinstance');
+		return remote.getGuestWebContents(gid);
+	};
+
 	Web.prototype._getPrevious$Iframe = function(){
 		return this._refreshCycles%2 === 1 ? this.$iframe_1 : this.$iframe_2;
 	};
@@ -246,6 +334,24 @@ define([
 	Web.prototype._getPreviousIframe = function(){
 		return this._refreshCycles%2 === 1 ? this.iframe_1 : this.iframe_2;
 	};
+
+
+
+	function getStyleInjectScript (url, prepend) {
+		var script = `(() => {
+			var l = document.createElement('link');	l.rel = 'stylesheet'; l.type = 'text/css';
+			l.href = '${url}';
+		`;
+		if(prepend === true) {
+			script += 'document.head.insertBefore( l, document.head.firstChild );';
+		} else {
+			script += 'document.head.appendChild( l );';
+		}
+		script += '\n})();';
+
+		return script;
+	}
+
 
 	return Web;
 });
