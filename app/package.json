@@ -1,6 +1,6 @@
 {
 	"name": "Scrum4Display",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/danyg/Scrum4Display.git"
@@ -14,7 +14,8 @@
 	"scripts": {
 		"install": "bower install",
 		"start": "electron .",
-		"build": "echo DISTRIBUTION > ./environment & electron-packager . --out=../dist --app-version=%npm_package_version% --prune --asar --overwrite --platform=win32 --arch=x64 & electron-packager . --out=../dist --app-version=%npm_package_version% --prune --asar --overwrite --platform=linux --arch=x64 & echo DEVEL > ./environment "
+		"build": "echo -n DISTRIBUTION > ./environment & electron-packager . --out=../dist --app-version=%npm_package_version% --prune --asar --overwrite --platform=win32 --arch=x64 & electron-packager . --out=../dist --app-version=%npm_package_version% --prune --asar --overwrite --platform=linux --arch=x64 & echo -n DEVEL > ./environment",
+		"changelog": "git log --format=[%ai]%n%B | grep \"ADD:\\|MOD:\\|FIX:\\|RMV:\\|\\[\\|^$\""
 	},
 	"dependencies": {
 		"body-parser": "^1.13.3",
