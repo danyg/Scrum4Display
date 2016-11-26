@@ -23,6 +23,14 @@ html, body, #container{
 	position: absolute;
 }
 
+.iframe-container .alert-message {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	z-index: 3;
+	opacity: .8;
+}
+
 webview,
 iframe {
 	border: 0;
