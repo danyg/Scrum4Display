@@ -1,12 +1,13 @@
 'use strict';
 
-var express = require('express'),
+const express = require('express'),
 	bodyParser = require('body-parser'),
 	// cookieParser = require('cookie-parser'),
 	fs = require('fs'),
 	path = require('path'),
 	app = express()
 ;
+var version;
 
 var securityController = {
 	incomingFilter: function(req, res, next) {
@@ -44,6 +45,15 @@ var configController = {
 			next();
 		});
 	},
+	msg: function(req, res, next) {
+		process.send(req.body);
+		res.status(201).end();
+	},
+	version: function(req, res, next) {
+		res.send(version || 'UNKNOWN');
+		res.status(200).end();
+	},
+
 	redirectEditor: function(req, res) {
 		res.redirect(301, '/configEdit/editor.html');
 	}
@@ -70,6 +80,8 @@ function start(rootPath, configFilePath){
 		.get('/', configController.redirectEditor)
 		.get('/config.json', configController.get)
 		.put('/config.json', configController.save)
+		.put('/msg', configController.msg)
+		.get('/version', configController.version)
 
 		.all('*', securityController.outgoingFilter)
 		.use(express.static(rootPath))
@@ -85,9 +97,10 @@ function start(rootPath, configFilePath){
 }
 
 if (!module.parent) {
-	var tmp, tmp1;
+	var tmp, tmp1, tmp2;
 	tmp = process.argv.indexOf('--root-path');
 	tmp1 = process.argv.indexOf('--config-path');
+	tmp2 = process.argv.indexOf('--version');
 	if(tmp === -1 || tmp1 === -1) {
 		console.log('You shall specify --root-path and --config-path like --root-path /path/to/file --config-path /path/to/config.json');
 		process.exit();
@@ -96,6 +109,8 @@ if (!module.parent) {
 	var rootPath = path.resolve( process.argv[tmp+1] ),
 		configFilePath = path.resolve( process.argv[tmp1+1] )
 	;
+
+	version = process.argv[tmp2+1];
 
 	if(!fs.existsSync(rootPath) || !fs.existsSync(configFilePath)){
 		console.log('rootPath: [%s] %s\nconfigPath: [%s] %s',

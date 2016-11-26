@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2016-11-25 19:14:48
 * @Last Modified by:   danyg
-* @Last Modified time: 2016-11-25 21:40:45
+* @Last Modified time: 2016-11-26 11:43:30
 */
 /*globals hideModal: true */
 define([
@@ -49,14 +49,19 @@ define([
 				this.toggleFullscreen();
 			});
 
+			mousetrap.bind('f10', () => {
+				this.toggleDesktop();
+			});
+
 			mousetrap.bind('ctrl+shift+i', () => {
-				this.openDevTools();
+				this.toggleDevTools();
 			});
 
 			fs.watchFile(configFilePath, () => {
 				this.loadConfiguration();
 			});
 
+			env.on('configedit', this._processConfigEditEvents.bind(this));
 
 			$(document).ready(() => {
 				$('.start-hide').modal('hide');
@@ -84,8 +89,16 @@ define([
 			win.setFullScreen(!win.isFullScreen());
 		}
 
-		openDevTools() {
+		toggleDevTools() {
 			win.toggleDevTools();
+		}
+
+		toggleDesktop() {
+			if(win.isMinimized()) {
+				win.restore();
+			} else {
+				win.minimize();
+			}
 		}
 
 		reload() {
@@ -96,6 +109,12 @@ define([
 			ses.clearCache(() => {
 				window.location.reload();
 			});
+		}
+
+		_processConfigEditEvents(msg) {
+			if(msg.charAt(0) !== '_' && typeof this[msg] === 'function') {
+				this[msg]();
+			}
 		}
 
 	}

@@ -3,13 +3,14 @@ define([
 	'mousetrap'
 ], function(
 	env,
-	Mousetrap
+	mousetrap
 ){
 
 	'use strict';
 
 
 	var currentConfig,
+		currentVersion = require('electron').remote.app.getVersion(),
 		child_process = require('child_process'),
 		path = require('path'),
 		assetsPath,
@@ -78,13 +79,22 @@ define([
 				path.normalize(assetsPath + '/configEdit/_server/configEditServer.js'),
 				[
 					'--root-path', assetsPath,
-					'--config-path', configFilePath
+					'--config-path', configFilePath,
+					'--version', currentVersion
 				],
 				{
 					silent: true
 				}
 			);
+
+			serverProcess.on('message', (msg) => {
+				console.log('Message Received from config Server', msg);
+				env.emit('configedit', msg);
+			});
+
 			console.log('Server Started');
+
+			window.serverProcess = serverProcess;
 		}
 	};
 
@@ -102,7 +112,11 @@ define([
 		serverEditor._stopServer();
 	});
 
-	Mousetrap.bind('f12', function() {
+	window.addEventListener('unload', function(event) {
+		serverEditor._stopServer();
+	});
+
+	mousetrap.bind('f12', function() {
 		serverEditor.openEditor();
 	});
 

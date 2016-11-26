@@ -4,7 +4,9 @@ define([
 
 	'use strict';
 
-	var path = require('path');
+	const path = require('path'),
+		EventEmitter = require('events')
+	;
 
 	environment = environment.trim();
 
@@ -15,14 +17,15 @@ define([
 		require('electron').remote.getCurrentWindow().webContents.openDevTools()
 	}
 
-	return {
-		_data: {},
-
-		isDebug: function(){
+	class Env extends EventEmitter {
+		constructor() {
+			super();
+			this._data = {};
+		}
+		isDebug() {
 			return (environment === 'DEVEL');
-		},
-
-		getcwd: function(){
+		}
+		getcwd() {
 			var cwd;
 			if(environment === 'DEVEL'){
 				cwd = path.resolve('./..');
@@ -30,15 +33,19 @@ define([
 				cwd = path.dirname(process.execPath);
 			}
 			return cwd;
-		},
+		}
 
-		set: function(key, val) {
+		set(key, val) {
 			this._data[key] = val;
 			return this;
-		},
-		get: function(key) {
+		}
+
+		get(key) {
 			return this._data[key];
 		}
-	};
+	}
+
+
+	return new Env();
 
 });

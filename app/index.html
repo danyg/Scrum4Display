@@ -4,6 +4,10 @@
 		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen" rel="stylesheet" />
 		<link href="css/styles.css" type="text/css" media="screen" rel="stylesheet" />
 
+		<script type="text/javascript">
+			require('electron').remote.getCurrentWindow().webContents.openDevTools()
+		</script>
+
 		<script type="text/javascript" src="bower_components/requirejs/require.js" data-main="js/main"></script>
 	</head>
 	<body>

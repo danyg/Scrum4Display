@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2016-11-26 10:00:58
 * @Last Modified by:   danyg
-* @Last Modified time: 2016-11-26 10:29:00
+* @Last Modified time: 2016-11-26 11:14:55
 */
 
 define([
@@ -322,7 +322,7 @@ define([
 			}
 		}
 
-		openDevTools() {
+		toggleDevTools() {
 			this._getCurrentIframeWebContents().toggleDevTools();
 		}
 
@@ -379,9 +379,9 @@ define([
 		}
 	};
 
-	Web.openDevTools = function(){
+	Web.toggleDevTools = function(){
 		if(!!focusedWeb){
-			focusedWeb.openDevTools();
+			focusedWeb.toggleDevTools();
 		}
 	};
 
@@ -393,8 +393,8 @@ define([
 	;
 	contextMenu
 		.append(new MenuItem({
-			label: 'open DevTools',
-			click: Web.openDevTools
+			label: 'Toggle DevTools',
+			click: Web.toggleDevTools
 		}))
 	;
 

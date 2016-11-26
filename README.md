@@ -83,8 +83,9 @@ Then execute Scrum4Display.exe
 
 - ```F5``` Refresh config file
 - ```ctrl```+```F5``` Reload the entirely application cleaning the cache (for devel)
+- ```F10``` Toggle Desktop (minimise / restore the window)
+- ```F11``` Toggle fullscreen
 - ```F12``` Open a Config Editor Window
-- ```F11``` Toggles fullscreen
 - ```ctrl```+```shift```+```i``` Open Dev Tools
 
 # Capabilities

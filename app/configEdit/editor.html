@@ -10,12 +10,19 @@
 	</head>
 	<body>
 		<div class="app-bar">
-			<div class="" role="group" aria-label="...">
+			<div class="buttons-group" role="group" aria-label="...">
 				<button type="button" class="btn BTN_LOAD" data-toggle="tooltip" data-placement="right" title="Open config.json"><i class="glyphicon glyphicon-folder-open"></i></button>
 				<button type="button" class="btn BTN_SAVE" data-toggle="tooltip" data-placement="right" title="Save config.json (Ctrl+S)"><i class="glyphicon glyphicon-floppy-disk"></i></button>
 				<button type="button" class="btn BTN_FORMAT" data-toggle="tooltip" data-placement="right" title="Format (Ctrl+Shift+F)"><i class="glyphicon glyphicon-align-left"></i></button>
 			</div>
+			<div class="buttons-group" role="group" aria-label="...">
+				<button type="button" class="btn BTN_RELOAD" data-toggle="tooltip" data-placement="right" title="Reload"><i class="glyphicon glyphicon-refresh"></i></button>
+				<button type="button" class="btn BTN_TOGGLE_FULLSCREEN" data-toggle="tooltip" data-placement="right" title="Toggle Fullscreen"><i class="glyphicon glyphicon-fullscreen"></i></button>
+				<button type="button" class="btn BTN_TOGGLE_DESKTOP" data-toggle="tooltip" data-placement="right" title="Toggle Desktop view (minimise / restore)"><i class="glyphicon glyphicon-collapse-down"></i></button>
+				<button type="button" class="btn BTN_TOGGLE_DEVTOOLS" data-toggle="tooltip" data-placement="right" title="Toggle Dev Tools"><i class="glyphicon glyphicon-cog"></i></button>
+			</div>
 		</div>
+		<div id="version"></div>
 		<pre id="editor"></pre>
 		<div id="alertBox"></div>
 

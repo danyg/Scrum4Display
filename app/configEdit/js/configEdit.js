@@ -56,6 +56,9 @@
 		$.get('/config.json', function(data) {
 			editor.getSession().getDocument().setValue(data);
 		});
+		$.get('/version', function(data) {
+			$('#version').text(data);
+		});
 	}
 
 	function saveDocument() {
@@ -78,6 +81,15 @@
 		} else {
 			alert("The document has an error<br/> please fix the errors before saving.");
 		}
+	}
+
+	function sendMessage(msg) {
+		$.ajax({
+			url: '/msg',
+			type: 'put',
+			contentType: 'text/plain',
+			data: msg.trim()
+		});
 	}
 
 	function formatDocument() {
@@ -110,4 +122,9 @@
 	$('.BTN_LOAD').click(loadDocument);
 	$('.BTN_SAVE').click(saveDocument);
 	$('.BTN_FORMAT').click(formatDocument);
+
+	$('.BTN_RELOAD').click(sendMessage.bind(this, 'reloadAndClearCache'));
+	$('.BTN_TOGGLE_FULLSCREEN').click(sendMessage.bind(this, 'toggleFullscreen'));
+	$('.BTN_TOGGLE_DESKTOP').click(sendMessage.bind(this, 'toggleDesktop'));
+	$('.BTN_TOGGLE_DEVTOOLS').click(sendMessage.bind(this, 'toggleDevTools'));
 }());

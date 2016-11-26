@@ -65,16 +65,45 @@ pre {
 }
 
 .btn {
-	padding: 0px 12px;
+	padding: 0px 8px;
 }
 .app-bar {
-	background: #444;
+	/*background: #444;*/
+	background: linear-gradient(to bottom, #45484d 0%,#000000 100%);
 	color: #eee;
 	padding: 1px 5px;
 	height: 25px;
 }
 
 .app-bar .btn {
-	background: #555;
+	background: linear-gradient(to bottom, #b5bdc8 0%,#828c95 36%,#28343b 100%);
+	border: none;
 	color: #eee;
+}
+
+.buttons-group {
+	float: left;
+	border-left: 1px solid #666;
+	border-right: 1px solid #444;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.buttons-group:first-child {
+	border-left: none;
+	padding-left: 0px;
+}
+
+.buttons-group:last-child {
+	border-right: none;
+	padding-right: 0px;
+}
+
+#version {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-style: italic;
+	color: white;
+	padding: 3px;
 }

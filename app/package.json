@@ -1,5 +1,6 @@
 {
 	"name": "Scrum4Display",
+	"productName": "Scrum4Display",
 	"version": "0.1.1",
 	"repository": {
 		"type": "git",
@@ -29,5 +30,27 @@
 		"jasmine": "^2.4.1",
 		"mock-require": "^1.3.0",
 		"sinon": "^1.17.5"
+	},
+	"build": {
+		"appId": "dg.opensource.scrum4display",
+		"asar": true,
+
+		"win": {
+			"publish": ["github"],
+			"iconUrl": "./css/img/logo.png"
+		},
+		"linux": {
+			"publish": ["github"],
+			"target": [
+				"tar.gz",
+				"rpm",
+				"deb"
+			]
+		},
+		"publish": {
+			"provider": "github",
+			"repo": "https://github.com/danyg/Scrum4Display.git",
+			"vPrefixedTagName": false
+		}
 	}
 }
