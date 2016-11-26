@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2016-11-26 10:00:58
 * @Last Modified by:   danyg
-* @Last Modified time: 2016-11-26 11:14:55
+* @Last Modified time: 2016-11-26 13:09:34
 */
 
 define([
@@ -307,6 +307,14 @@ define([
 			}
 		}
 
+		back() {
+			this._getCurrentIframeWebContents().goBack();
+		}
+
+		forward() {
+			this._getCurrentIframeWebContents().goForward();
+		}
+
 		reload() {
 			if(!this._reloadSuspended) {
 				this.$spinner.css('opacity', 1);
@@ -379,6 +387,18 @@ define([
 		}
 	};
 
+	Web.back = function(){
+		if(!!focusedWeb){
+			focusedWeb.back();
+		}
+	};
+
+	Web.forward = function(){
+		if(!!focusedWeb){
+			focusedWeb.forward();
+		}
+	};
+
 	Web.toggleDevTools = function(){
 		if(!!focusedWeb){
 			focusedWeb.toggleDevTools();
@@ -387,10 +407,23 @@ define([
 
 	contextMenu
 		.append(new MenuItem({
+			label: 'Back',
+			click: Web.back
+		}))
+	;
+	contextMenu
+		.append(new MenuItem({
+			label: 'Forward',
+			click: Web.forward
+		}))
+	;
+	contextMenu
+		.append(new MenuItem({
 			label: 'Reload',
 			click: Web.reload
 		}))
 	;
+	contextMenu.append(new MenuItem({type: 'separator'}))
 	contextMenu
 		.append(new MenuItem({
 			label: 'Toggle DevTools',

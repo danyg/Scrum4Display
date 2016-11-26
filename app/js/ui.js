@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2016-11-25 19:14:48
 * @Last Modified by:   danyg
-* @Last Modified time: 2016-11-26 11:43:30
+* @Last Modified time: 2016-11-26 12:25:28
 */
 /*globals hideModal: true */
 define([
@@ -62,6 +62,7 @@ define([
 			});
 
 			env.on('configedit', this._processConfigEditEvents.bind(this));
+			env.on('ui', this._processConfigEditEvents.bind(this));
 
 			$(document).ready(() => {
 				$('.start-hide').modal('hide');

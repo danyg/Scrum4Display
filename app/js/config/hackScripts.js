@@ -1,7 +1,12 @@
 define([
-	'jquery'
+	'jquery',
+	'env',
+	'utils'
 ], function(
-	$
+	$,
+	env,
+
+	utils
 ){
 
 	'use strict';
@@ -20,11 +25,22 @@ define([
 			config.forEach((script) => {
 				includeScript(script);
 			});
+			currentConfig = config;
 		}
 	}
 
 	hackScript.onRefreshConfig = function(config){
-		return hackScript(config);
+		var result = utils.compareConfigArray(currentConfig, config);
+
+		if(result === false) {
+			env.emit('ui', 'reloadAndClearCache');
+		} else if(!!result && result.length > 0) {
+			// we add the new scripts
+			result.forEach((script) => {
+				includeScript(script);
+			});
+			currentConfig = config;
+		}
 	};
 
 	return hackScript;
