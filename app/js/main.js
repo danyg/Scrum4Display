@@ -6,7 +6,8 @@
 		environment,
 		b = '../bower_components',
 		remote = require('electron').remote,
-		BASE = path.resolve(remote.app.getAppPath() + '/js').replace(/\\/g, '/')
+		ASSET_PATH = remote.app.getAppPath(),
+		BASE = path.resolve(ASSET_PATH + '/js').replace(/\\/g, '/')
 	;
 
 	environment = '../environment';
@@ -29,20 +30,27 @@
 			}
 		}
 	});
-}());
 
-define([
-	'jquery'
-], function(
-	$
-){
 
-	'use strict';
+	requirejs([
+		'jquery',
+		'env'
+	], function(
+		$,
+		env
+	){
 
-	window.jQuery = window.$ = window._$ = $;
+		'use strict';
 
-	requirejs(['ui', 'bootstrap',], function(ui, bootstrap){
+		env.set('assetsPath', ASSET_PATH);
+
+		window.jQuery = window.$ = window._$ = $;
+
+		requirejs(['ui', 'bootstrap',], function(ui, bootstrap){
+
+		});
 
 	});
 
-});
+}());
+

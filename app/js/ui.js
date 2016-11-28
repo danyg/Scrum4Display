@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2016-11-25 19:14:48
 * @Last Modified by:   danyg
-* @Last Modified time: 2016-11-26 12:25:28
+* @Last Modified time: 2016-11-28 19:22:38
 */
 /*globals hideModal: true */
 define([
@@ -27,12 +27,10 @@ define([
 		fs = require('fs'),
 
 		cwd = env.getcwd(),
-		configFilePath = path.normalize(cwd + '/config.json'),
-		assetsPath = path.resolve('./')
+		configFilePath = path.normalize(cwd + '/config.json')
 	;
 
 	env.set('configFilePath', configFilePath);
-	env.set('assetsPath', assetsPath);
 
 	class UI {
 		constructor() {

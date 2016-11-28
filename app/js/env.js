@@ -27,10 +27,10 @@ define([
 		}
 		getcwd() {
 			var cwd;
-			if(environment === 'DEVEL'){
+			if(this.isDebug()){
 				cwd = path.resolve('./..');
 			} else {
-				cwd = path.dirname(process.execPath);
+				cwd = process.cwd();
 			}
 			return cwd;
 		}

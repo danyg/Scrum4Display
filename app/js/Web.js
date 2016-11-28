@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2016-11-26 10:00:58
 * @Last Modified by:   danyg
-* @Last Modified time: 2016-11-26 13:09:34
+* @Last Modified time: 2016-11-28 19:34:32
 */
 
 define([
@@ -62,16 +62,14 @@ define([
 				.appendTo(this.$container)
 				.css('opacity', 1)
 			;
-			this.$iframe_1 = $('<webview src="notfound.html"/>')
+			this.$iframe_1 = $('<webview src="notfound.html" allowpopups/>')
 				.appendTo(this.$container)
 				.addClass('_1')
-				.data('webcontents', remote.getGuestWebContents(this._guestID + '_1'))
 				.data('web', this)
 			;
-			this.$iframe_2 = $('<webview src="notfound.html"/>')
+			this.$iframe_2 = $('<webview src="notfound.html" allowpopups/>')
 				.appendTo(this.$container)
 				.addClass('_2')
-				.data('webcontents', remote.getGuestWebContents(this._guestID + '_2'))
 				.data('web', this)
 			;
 			this.$iframes = $(this.$iframe_1).add(this.$iframe_2);
